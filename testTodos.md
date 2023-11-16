@@ -59,49 +59,49 @@
 
 - If the _post_ with the specified `id` is not found:
 
-  - [ ] return HTTP status code `404` (Not Found).
-  - [ ] return the following JSON: `{ message: "The post with the specified ID does not exist" }`.
+  - [x] return HTTP status code `404` (Not Found).
+  - [x] return the following JSON: `{ message: "The post with the specified ID does not exist" }`.
 
 - If there's an error in removing the _post_ from the database:
 
-  - [ ] respond with HTTP status code `500`.
-  - [ ] return the following JSON: `{ message: "The post could not be removed" }`.
+  - [x] respond with HTTP status code `500`.
+  - [x] return the following JSON: `{ message: "The post could not be removed" }`.
 
 #### 6 [GET] /api/posts/:id/comments
 
 - If the _post_ with the specified `id` is not found:
 
-  - [ ] return HTTP status code `404` (Not Found).
-  - [ ] return the following JSON: `{ message: "The post with the specified ID does not exist" }`.
+  - [x] return HTTP status code `404` (Not Found).
+  - [x] return the following JSON: `{ message: "The post with the specified ID does not exist" }`.
 
 - If there's an error in retrieving the _comments_ from the database:
 
-  - [ ] respond with HTTP status code `500`.
-  - [ ] return the following JSON: `{ message: "The comments information could not be retrieved" }`.
+  - [x] respond with HTTP status code `500`.
+  - [x] return the following JSON: `{ message: "The comments information could not be retrieved" }`.
 
 # TEST RESULTS
 
 ✓ [0] sanity check (1 ms)
 server.js
 [GET] /api/posts
-✓ [1] can get the correct number of posts (21 ms)
-✓ [2] can get all the correct posts (5 ms)
+✓ [1] can get the correct number of posts (23 ms)
+✓ [2] can get all the correct posts (4 ms)
 [GET] /api/posts/:id
-✓ [3] can get all the correct posts by id (6 ms)
-✓ [4] responds with a 404 if the post is not found (3 ms)
+✓ [3] can get all the correct posts by id (4 ms)
+✓ [4] responds with a 404 if the post is not found (2 ms)
 [POST] /api/posts
 ✓ [5] responds with a 201 (8 ms)
-✓ [6] responds with a new post (5 ms)
+✓ [6] responds with a new post (4 ms)
 ✓ [7] on missing title or contents responds with a 400 (3 ms)
 [PUT] /api/posts/:id
-✓ [8] responds with updated user (2 ms)
-✓ [9] saves the updated user to the db (4 ms)
+✓ [8] responds with updated user (3 ms)
+✓ [9] saves the updated user to the db (5 ms)
 ✓ [10] responds with the correct message & status code on bad id (2 ms)
-✓ [11] responds with the correct message & status code on validation problem (4 ms)
+✓ [11] responds with the correct message & status code on validation problem (3 ms)
 [DELETE] /api/posts/:id
-✕ [12] responds with a 404 if the post is not found (4 ms)
-✕ [13] responds with the complete deleted post (3 ms)
-✕ [14] removes the deleted post from the database (3 ms)
+✓ [12] responds with a 404 if the post is not found (2 ms)
+✓ [13] responds with the complete deleted post (2 ms)
+✓ [14] removes the deleted post from the database (2 ms)
 [GET] /api/posts/:id/comments
-✕ [15] responds with a 404 if the post is not found (2 ms)
-✕ [16] can get all the comments associated to the posts with given id (2 ms)
+✕ [15] responds with a 404 if the post is not found (3 ms)
+✕ [16] can get all the comments associated to the posts with given id (4 ms)

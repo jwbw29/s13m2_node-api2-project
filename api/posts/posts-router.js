@@ -12,9 +12,11 @@ postsRouter.get("/", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(500)
-        .json({ message: "The posts information could not be retrieved" });
+      res.status(500).json({
+        message: "The posts information could not be retrieved",
+        err: err.message,
+        stack: err.stack,
+      });
     });
 });
 
@@ -29,9 +31,11 @@ postsRouter.get("/:id", async (req, res) => {
           .json({ message: "The post with the specified ID does not exist" });
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .json({ message: "The post information could not be retrieved" });
+    res.status(500).json({
+      message: "The post information could not be retrieved",
+      err: err.message,
+      stack: err.stack,
+    });
   }
 });
 
@@ -53,6 +57,8 @@ postsRouter.post("/", (req, res) => {
           console.log(err);
           res.status(500).json({
             message: "There was an error while saving the post to the database",
+            err: err.message,
+            stack: err.stack,
           });
         });
 });
@@ -87,27 +93,56 @@ postsRouter.put("/:id", (req, res) => {
       })
       .catch((err) => {
         console.log(err);
-        res
-          .status(500)
-          .json({ message: "The post information could not be modified" });
+        res.status(500).json({
+          message: "The post information could not be modified",
+          err: err.message,
+          stack: err.stack,
+        });
       });
   }
 });
 
-// [ ] [DELETE] /api/posts/:id
-// when given an id, delete the corresponing post
-//does id exist? if not, throw error. If so, proceed
-
+// [x] [DELETE] /api/posts/:id
 postsRouter.delete("/:id", async (req, res) => {
   try {
-    throw new Error("sad!");
+    const post = await Posts.findById(req.params.id);
+    if (!post) {
+      res
+        .status(404)
+        .json({ message: "The post with the specified ID does not exist" });
+    } else {
+      await Posts.remove(req.params.id);
+      res.json(post);
+    }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "The post could not be removed" });
+    res.status(500).json({
+      message: "The post could not be removed",
+      err: err.message,
+      stack: err.stack,
+    });
   }
 });
 
-// [ ] [GET] /api/posts/:id/comments
-//postsRouter.get()
+// [x] [GET] /api/posts/:id/comments
+postsRouter.get("/:id/comments", async (req, res) => {
+  try {
+    const post = await Posts.findById(req.params.id);
+    if (!post) {
+      res.status(404).json({
+        message: "The post with the specified ID does not exist",
+      });
+    } else {
+      const messages = await Posts.findPostComments(req.params.id);
+      res.json(messages);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "The comments information could not be retrieved",
+      err: err.message,
+      stack: err.stack,
+    });
+  }
+});
 
 module.exports = postsRouter;
